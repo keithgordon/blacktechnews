@@ -1,10 +1,25 @@
-var app = angular.module('blacktechnews', []);
+var app = angular.module('blacktechnews', ['ui.router'])
+  app.config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
+
+      $stateProvider
+        .state('home', {
+          url: '/home',
+          templateUrl: '/home.html',
+          controller: 'MainCtrl'
+        });
+
+        $urlRouterProvider.otherwise('home');
+
+      }])
   app.factory('posts', [function(){
     var o = {
       posts: [{title: 'Blue1647 Expands Internationally', link: 'http://blue1647.com', upvote:0}]
     };
     return o;
-  }]);
+  }])
   app.controller('MainCtrl', [
     '$scope',
     'posts',
