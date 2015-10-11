@@ -9,6 +9,12 @@ var app = angular.module('blacktechnews', ['ui.router'])
           url: '/home',
           templateUrl: '/home.html',
           controller: 'MainCtrl'
+        })
+
+        .state('posts', {
+          url: '/posts/{id}',
+          templateUrl: '/posts.html',
+          controller: 'PostsCtrl'
         });
 
         $urlRouterProvider.otherwise('home');
@@ -16,7 +22,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
       }])
       app.factory('posts', [function(){
         var o = {
-          posts: [{title: 'hello', link:'http://blue1647.com', upvotes:3}]
+          posts: []
         };
         return o;
       }])
@@ -33,7 +39,11 @@ var app = angular.module('blacktechnews', ['ui.router'])
             $scope.posts.push({
               title: $scope.title,
               link: $scope.link,
-              upvotes: 0
+              upvotes: 0,
+              comment: [
+                {author:'Barack', body: 'Cool idea!', upvotes:0},
+                {author:'Kanye', body: 'You dont have the answers!', upvotes:4}
+              ]
             });
             $scope.title = '';
             $scope.link = '';
@@ -42,4 +52,11 @@ var app = angular.module('blacktechnews', ['ui.router'])
           $scope.incrementUpVotes = function(post){
             post.upvotes += 1;
           }
+        }])
+      app.controller('PostsCtrl', [
+        '$scope',
+        '$stateParams',
+        'posts',
+        function($scope, $stateParams, posts) {
+          $scope.post = posts.posts[$stateParams.id];
         }]);
