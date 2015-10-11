@@ -15,7 +15,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
           url: '/posts/{id}',
           templateUrl: '/posts.html',
           controller: 'PostsCtrl'
-        });
+        })
 
         $urlRouterProvider.otherwise('home');
 
@@ -40,14 +40,14 @@ var app = angular.module('blacktechnews', ['ui.router'])
               title: $scope.title,
               link: $scope.link,
               upvotes: 0,
-              comment: [
-                {author:'Barack', body: 'Cool idea!', upvotes:0},
-                {author:'Kanye', body: 'You dont have the answers!', upvotes:4}
+              comments: [
+                {author: 'Barack', body: 'Cool idea!', upvotes: 0},
+                {author: 'Kanye', body: 'You dont have the answers!', upvotes: 4}
               ]
             });
             $scope.title = '';
             $scope.link = '';
-          }
+          };
 
           $scope.incrementUpVotes = function(post){
             post.upvotes += 1;
@@ -59,4 +59,14 @@ var app = angular.module('blacktechnews', ['ui.router'])
         'posts',
         function($scope, $stateParams, posts) {
           $scope.post = posts.posts[$stateParams.id];
+
+          $scope.AddComment = function(){
+            if($scope.body === '') { return; }
+            $scope.post.comments.push({
+                body: $scope.body,
+                author: 'user',
+                upvotes: 0
+            });
+            $scope.body = '';
+          };
         }]);
