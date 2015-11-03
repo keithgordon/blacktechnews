@@ -8,7 +8,7 @@
 
   var mongoose = require('mongoose');
   var Post = mongoose.model('Post');
-  var Comment = mongoose.model('Comment')
+  var Comment = mongoose.model('Comment');
   // Retrive Posts
   router.get('/posts', function(req, res, next) {
     Post.find(function(err, posts) {
@@ -54,6 +54,8 @@
   //Return a single comment
   router.get('/posts/:post', function(req, res) {
     req.post.populate('comments', function(err, post) {
+    if (err) { return next(err); }
+
     res.json(post);
   });
 });
@@ -74,8 +76,8 @@
     comment.save(function(err, comment){
       if(err){ return next(err); }
 
-      reg.post.comments.push(comment);
-      reg.post.save(function(err, post) {
+      req.post.comments.push(comment);
+      req.post.save(function(err, post) {
         if(err){ return next(err); }
 
         res.json(comment);
@@ -87,7 +89,7 @@
     req.comment.upvote(function(err, comment ){
       if (err) { return next(err); }
 
-      res.json(post);
+      res.json(comment);
     });
   });
 
