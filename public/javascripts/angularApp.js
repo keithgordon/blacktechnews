@@ -62,6 +62,11 @@ var app = angular.module('blacktechnews', ['ui.router'])
           return $http.post('/posts/' + id + '/comments', comment);
         };
 
+        o.upvoteComment = function(post, comment) {
+          return $http.put('/posts/' + post._id + '/comments/' + comment._id + '/upvote').success(function(data) { comment.upvotes += 1;
+           })
+        }
+
         return o;
       }])
       app.controller('MainCtrl', [
@@ -82,7 +87,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
             $scope.link = '';
           }
 
-          $scope.incrementUpVotes = function(post){
+          $scope.incrementUpvotes = function(post) {
             posts.upvote(post);
           }
         }])
@@ -104,5 +109,9 @@ var app = angular.module('blacktechnews', ['ui.router'])
             });
 
             $scope.body = '';
+          }
+
+          $scope.incrementUpvotes = function(comment) {
+              posts.upvoteComment(post, comment);
           }
         }]);

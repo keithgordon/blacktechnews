@@ -12,7 +12,7 @@
   // Retrive Posts
   router.get('/posts', function(req, res, next) {
     Post.find(function(err, posts) {
-      if (err) { next(err); }
+      if (err) { return next(err); }
 
       res.json(posts);
     })
@@ -45,7 +45,7 @@
 
     query.exec(function (err, comment){
       if (err) { return next(err); }
-      if (!post) { return next(new Error('can\'t find comment')); }
+      if (!comment) { return next(new Error('can\'t find comment')); }
 
       req.comment = comment;
       return next();
@@ -54,36 +54,18 @@
   //Return a single comment
   router.get('/posts/:post', function(req, res) {
     req.post.populate('comments', function(err, post) {
-    if (err) { return next(err); }
-
-    res.json(post);
-  });
-});
-  //Upvote Posts
-  router.put('/posts/:post/upvote', function(req, res, next) {
-    req.post.upvote(function(err, post){
-      if (err) { return next(err); }
-
       res.json(post);
     });
   });
+  //Upvote Posts
+  router.put('/posts/:post/upvote', function(req, res, next) {
+      req.post.upvote(function(err, post){
+        if (err) { return next(err); }
 
-  //Create Post Comments
-  router.post('/posts/:post/comments', function(req, res, next) {
-    var comment = new Comment(req.body);
-    comment.post = req.post;
-
-    comment.save(function(err, comment){
-      if(err){ return next(err); }
-
-      req.post.comments.push(comment);
-      req.post.save(function(err, post) {
-        if(err){ return next(err); }
-
-        res.json(comment);
+        res.json(post);
       });
     });
-  });
+
   //Upvote Comment Posts
   router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
     req.comment.upvote(function(err, comment ){
@@ -92,5 +74,26 @@
       res.json(comment);
     });
   });
+
+  //Create Post Comments
+  router.post('/posts/:post/comments', function(req, res, next) {
+      var comment = new Comment(req.body);
+      comment.post = req.post;
+
+      comment.save(function(err, comment){
+        if(err){ return next(err); }
+
+        req.post.comments.push(comment);
+            req.post.save(function(err, post) {
+          if(err){ return next(err); }
+
+          res.json(comment);
+        });
+      });
+    });
+
+
+
+
 
   module.exports = router;
