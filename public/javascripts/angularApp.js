@@ -1,4 +1,5 @@
-var app = angular.module('blacktechnews', ['ui.router'])
+var app = angular.module('blacktechnews', ['ui.router']);
+
   app.config([
     '$stateProvider',
     '$urlRouterProvider',
@@ -21,7 +22,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
           controller: 'PostsCtrl',
           resolve: {
             post: ['$stateParams', 'posts', function($stateParams, posts) {
-              return posts.get($stateParams.id)
+              return posts.get($stateParams.id);
             }]
           }
         })
@@ -47,7 +48,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
         });
 
         $urlRouterProvider.otherwise('home');
-      }])
+    }]);
 
       app.factory('auth', ['$http', '$window', function($http, $window){
           var auth = {};
@@ -70,7 +71,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
             } else {
               return false;
             }
-           }
+           };
 
           auth.currentUser = function(){
             if(auth.isLoggedIn()){
@@ -79,7 +80,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
 
               return payload.username;
              }
-            }
+         };
 
           auth.register = function(user){
              return $http.post('/register', user).success(function(data){
@@ -156,7 +157,6 @@ var app = angular.module('blacktechnews', ['ui.router'])
         'posts',
         'auth',
         function($scope, posts, auth){
-          $scope.test = 'Hello world';
           $scope.posts = posts.posts;
           $scope.isLoggedIn = auth.isLoggedIn;
 
@@ -179,7 +179,8 @@ var app = angular.module('blacktechnews', ['ui.router'])
         '$stateParams',
         'posts',
         'post',
-        function($scope, $stateParams, posts, post) {
+        'auth',
+        function($scope, $stateParams, posts, post, auth) {
           $scope.post = post;
           $scope.isLoggedIn = auth.isLoggedIn;
 
@@ -193,7 +194,7 @@ var app = angular.module('blacktechnews', ['ui.router'])
             });
 
             $scope.body = '';
-          }
+          };
 
           $scope.incrementUpvotes = function(comment) {
               posts.upvoteComment(post, comment);
