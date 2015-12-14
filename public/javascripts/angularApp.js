@@ -1,6 +1,5 @@
-var app = angular.module('blacktechnews', ['ui.router']);
-
-  app.config([
+angular.module('blacktechnews', ['ui.router'])
+  .config([
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -48,20 +47,65 @@ var app = angular.module('blacktechnews', ['ui.router']);
         });
 
         $urlRouterProvider.otherwise('home');
-    }]);
+    }])
+    .factory('posts', ['$http', 'auth', function($http, auth){
+      var o = {
+        posts: []
+      };
 
-      app.factory('auth', ['$http', '$window', function($http, $window){
-          var auth = {};
+      o.getAll = function() {
+        return $http.get('/posts').success(function(data) {
+           angular.copy(data, o.posts);
+        });
+      };
 
-          auth.saveToken = function (token){
+      o.get = function(id) {
+        return $http.get('/posts/' + id).then(function(res) {
+          return res.data;
+        });
+      };
+
+      o.create = function(post) {
+        return $http.post('/posts', post, {
+            headers: {Authorization: 'Brearer '+auth.getToken()}
+        }).success(function(data) {
+          o.posts.push(data);
+        });
+      };
+
+      o.upvote = function(post) {
+        return $http.put('/posts/' + post._id + '/upvote', null, {
+            headers: {Authorization: 'Bearer'+auth.getToken()}
+        }).success(function(data){
+          post.upvotes += 1;
+        });
+      };
+
+      o.addComment = function(id, comment) {
+        return $http.post('/posts/' + id + '/comments', comment, {
+            headers: {Authorization: 'Bearer'+auth.getToken()}
+        });
+      };
+
+      o.upvoteComment = function(post, comment) {
+        return $http.put('/posts/' + post._id + '/comments' + comment._id + '/upvote', null, {
+            headers: {Authorization: 'Bearer '+auth.getToken()}
+        }).success(function(data){
+            comment.upvotes += 1;
+        });
+    };
+
+      return o;
+  }])
+      .factory('auth', ['$http', '$window', '$rootScope', function($http, $window, $rootScope){
+         var auth = {
+          saveToken: function (token){
             $window.localStorage['blacktech-news-token'] = token;
-          };
-
-          auth.getToken = function (){
+          },
+          getToken: function (){
             return $window.localStorage['blacktech-news-token'];
-          }
-
-          auth.isLoggedIn = function(){
+          },
+          isLoggedIn: function(){
             var token = auth.getToken();
 
             if(token){
@@ -71,88 +115,33 @@ var app = angular.module('blacktechnews', ['ui.router']);
             } else {
               return false;
             }
-           };
-
-          auth.currentUser = function(){
+          },
+          currentUser: function(){
             if(auth.isLoggedIn()){
               var token = auth.getToken();
-              var payload = JSON.parse($window.atob(token.spilt('.')[1]));
+              var payload = JSON.parse($window.atob(token.split('.')[1]));
 
               return payload.username;
              }
-         };
-
-          auth.register = function(user){
+            },
+          register: function(user){
              return $http.post('/register', user).success(function(data){
                 auth.saveToken(data.token);
              });
-         };
-
-          auth.logIn = function(user){
+            },
+          logIn: function(user){
               return $http.post('/login', user).success(function(data){
                 auth.saveToken(data.token);
               });
-          };
-
-          auth.logOut = function(){
+          },
+          logOut: function(){
               $window.localStorage.removeItem('blacktech-news-token');
-          };
+          }
+        };
 
           return auth;
-      }]);
-
-
-      app.factory('posts', ['$http', 'auth', function($http){
-        var o = {
-          posts: []
-        };
-
-        o.getAll = function() {
-          return $http.get('/posts').success(function(data) {
-             angular.copy(data, o.posts);
-          });
-        };
-
-        o.get = function(id) {
-          return $http.get('/posts/' + id).then(function(res) {
-            return res.data;
-          });
-        };
-
-        o.create = function(post) {
-          return $http.post('/posts', post, {
-              headers: {Authorization: 'Brearer '+auth.getToken()}
-          }).success(function(data) {
-            o.posts.push(data);
-          });
-        };
-
-        o.upvote = function(post) {
-          return $http.put('/posts/' + post._id + '/upvote', null, {
-              headers: {Authorization: 'Bearer'+auth.getToken()}
-          }).success(function(data){
-            post.upvotes += 1;
-          });
-        };
-
-        o.addComment = function(id, comment) {
-          return $http.post('/posts/' + id + '/comments', comment, {
-              headers: {Authorization: 'Bearer'+auth.getToken()}
-          });
-        };
-
-        o.upvoteComment = function(post, comment) {
-          return $http.put('/posts/' + post._id + '/comments' + comment._id + '/upvote', null, {
-              headers: {Authorization: 'Bearer '+auth.getToken()}
-          }).success(function(data){
-              comment.upvotes += 1;
-          });
-      };
-
-        return o;
-    }]);
-
-      app.controller('MainCtrl', [
+      }])
+      .controller('MainCtrl', [
         '$scope',
         'posts',
         'auth',
@@ -160,7 +149,7 @@ var app = angular.module('blacktechnews', ['ui.router']);
           $scope.posts = posts.posts;
           $scope.isLoggedIn = auth.isLoggedIn;
 
-          $scope.addPost = function() {
+          $scope.addPost = function(){
             if($scope.title === '') { return; }
             posts.create({
               title: $scope.title,
@@ -173,14 +162,13 @@ var app = angular.module('blacktechnews', ['ui.router']);
           $scope.incrementUpvotes = function(post) {
             posts.upvote(post);
           };
-       }]);
-      app.controller('PostsCtrl', [
+       }])
+      .controller('PostsCtrl', [
         '$scope',
-        '$stateParams',
         'posts',
         'post',
         'auth',
-        function($scope, $stateParams, posts, post, auth) {
+        function($scope, posts, post, auth) {
           $scope.post = post;
           $scope.isLoggedIn = auth.isLoggedIn;
 
@@ -192,15 +180,14 @@ var app = angular.module('blacktechnews', ['ui.router']);
             }).success(function(comment) {
               $scope.post.comments.push(comment);
             });
-
             $scope.body = '';
           };
 
           $scope.incrementUpvotes = function(comment) {
               posts.upvoteComment(post, comment);
           };
-        }]);
-        app.controller('AuthCtrl', [
+        }])
+        .controller('AuthCtrl', [
           '$scope',
           '$state',
           'auth',
@@ -222,8 +209,8 @@ var app = angular.module('blacktechnews', ['ui.router']);
                  $state.go('home');
               });
              };
-          }]);
-        app.controller('NavCtrl', [
+          }])
+        .controller('NavCtrl', [
           '$scope',
           'auth',
           function($scope, auth){
