@@ -74,7 +74,7 @@ angular.module('blacktechnews', ['ui.router'])
       };
 
       o.upvote = function(post) {
-        return $http.put('/posts/' + post._id + '/upvote', null, {
+        return $http.put('/posts/' + post._id + '/upvote', {
             headers: {Authorization: 'Bearer'+auth.getToken()}
         }).success(function(data){
           post.upvotes += 1;
@@ -88,12 +88,12 @@ angular.module('blacktechnews', ['ui.router'])
       };
 
       o.upvoteComment = function(post, comment) {
-        return $http.put('/posts/' + post._id + '/comments' + comment._id + '/upvote', null, {
+        return $http.put('/posts/' + post._id + '/comments' + comment._id + '/upvote', {
             headers: {Authorization: 'Bearer '+auth.getToken()}
         }).success(function(data){
             comment.upvotes += 1;
         });
-    };
+      };
 
       return o;
   }])
@@ -157,7 +157,7 @@ angular.module('blacktechnews', ['ui.router'])
             });
             $scope.title = '';
             $scope.link = '';
-        };
+          };
 
           $scope.incrementUpvotes = function(post) {
             posts.upvote(post);
@@ -168,7 +168,7 @@ angular.module('blacktechnews', ['ui.router'])
         'posts',
         'post',
         'auth',
-        function($scope, posts, post, auth) {
+        function($scope, posts, post, auth){
           $scope.post = post;
           $scope.isLoggedIn = auth.isLoggedIn;
 
@@ -197,8 +197,8 @@ angular.module('blacktechnews', ['ui.router'])
             $scope.register = function(){
               auth.register($scope.user).error(function(error){
                 $scope.error = error;
-            }).then(function(){
-              $state.go('home');
+              }).then(function(){
+                $state.go('home');
             });
            };
 
