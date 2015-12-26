@@ -74,7 +74,7 @@ function($stateProvider, $urlRouterProvider) {
   };
 
   o.upvote = function(post) {
-    return $http.put('/posts/' + post._id + '/upvote', {
+    return $http.put('/posts/' + post._id + '/upvote', null, {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
       post.upvotes += 1;
@@ -88,7 +88,7 @@ function($stateProvider, $urlRouterProvider) {
   };
 
   o.upvoteComment = function(post, comment) {
-    return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote', {
+    return $http.put('/posts/' + post._id + '/comments/'+ comment._id + '/upvote', null, {
       headers: {Authorization: 'Bearer '+auth.getToken()}
     }).success(function(data){
       comment.upvotes += 1;
