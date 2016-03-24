@@ -3,11 +3,13 @@
   <title>Black Tech News</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/stylesheets/bootstrap.css" rel="stylesheet">
   <script src="/javascripts/angular.min.js"></script>
   <script src="/javascripts/angular-ui-router.js"></script>
-
   <script src="/javascripts/angularApp.js"></script>
+  <script src="/javascripts/jquery-2.1.0.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+
 
   <style> .glyphicon-thumbs-up { cursor:pointer } </style>
 
@@ -32,6 +34,53 @@
   <script type="text/ng-template" id="/home.html">
     <div class="page-header">
       <h1>Black Tech News</h1>
+
+          <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-sm col-md-2" data-toggle="modal" data-target="#myModal">
+      Create Post
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body">
+              <form class="form-horizontal" ng-submit="addPost()"
+                style="margin-top:30px;" ng-show="isLoggedIn()">
+                <h3>Add a new post</h3>
+
+                <div class="form-group">
+                  <div class="col-xs-6">
+                      <input type="text"
+                      class="form-control"
+                      placeholder="Breaking News Headline!"
+                      ng-model="title"
+                      ng-maxlength="50"
+                      maxlength="50"></input>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-6">
+                      <input type="text"
+                      class="form-control"
+                      placeholder="http://www.facebook.com"
+                      ng-model="link"></input>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Post</button>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
 
     <div ng-repeat="post in posts | orderBy:'-upvotes'">
@@ -58,30 +107,7 @@
       <span>{{ error.message }}</span>
     </div>
 
-    <form class="form-horizontal" ng-submit="addPost()"
-      style="margin-top:30px;" ng-show="isLoggedIn()">
-      <h3>Add a new post</h3>
 
-      <div class="form-group">
-        <div class="col-xs-6">
-            <input type="text"
-            class="form-control"
-            placeholder="Break News Headline!"
-            ng-model="title"
-            ng-maxlength="50"
-            maxlength="50"></input>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-6">
-            <input type="text"
-            class="form-control"
-            placeholder="http://www.facebook.com"
-            ng-model="link"></input>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Post</button>
-    </form>
 
     <div ng-hide="isLoggedIn()">
       <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can add a post.</h3>
