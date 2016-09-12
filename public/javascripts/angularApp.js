@@ -15,6 +15,10 @@ function($stateProvider, $urlRouterProvider) {
         }]
       }
     })
+    .state('about', {
+      url: '/about',
+      templateUrl: '/about.html'
+    })
     .state('posts', {
       url: '/posts/{id}',
       templateUrl: '/posts.html',

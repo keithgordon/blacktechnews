@@ -22,7 +22,7 @@
       <li ng-show="isLoggedIn()"><a ng-click="logOut()">Log Out</a></li>
       <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
       <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-      <li><a href="#">About</a></li>
+      <li><a href="/#/about">About</a></li>
     </ul>
   </nav>
   <div class="row">
@@ -218,5 +218,10 @@
       <button type="submit" class="btn btn-primary">Register</button>
     </form>
   </script>
+
+  <script type="text/ng-template" id="/about.html">
+      <p>about test</p>
+  </script>
+
 </body>
 </html>
