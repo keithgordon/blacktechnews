@@ -27,7 +27,10 @@ router.get('/posts', function(req, res, next) {
 router.post('/posts', auth, function(req, res, next) {
 
   var post = new Post(req.body);
+  var today = new Date();
   post.author = req.payload.username;
+  post.date = today.toDateString();
+
 
   post.save(function(err, post){
     if(err){ return next(err); }
