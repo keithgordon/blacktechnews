@@ -29,7 +29,7 @@ router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);
   var today = new Date();
   post.author = req.payload.username;
-  post.date = today.toDateString();
+  post.date = today.toLocaleDateString();
 
 
   post.save(function(err, post){
