@@ -1,5 +1,5 @@
-# blacktechnews
-News site focused on African Americans in tech built using MongoDB, ExpressJS, AngluarJS, and NodeJS. http://www.blacktech.news
+# Black Tech Wews
+News site focused on African Americans in tech built using MongoDB, ExpressJS, AngluarJS, and NodeJS.
 
 ## Demo
 You can test a fully working live demo at https://blacktech.news
