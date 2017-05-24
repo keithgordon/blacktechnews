@@ -2,7 +2,7 @@
 <head>
   <title>Black Tech News</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="/javascripts/angular.min.js"></script>
   <script src="/javascripts/angular-ui-router.js"></script>
   <script src="/javascripts/angularApp.js"></script>
@@ -16,15 +16,24 @@
 
 </head>
 <body ng-app="blacktechnews">
-  <nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
-    <ul class="nav navbar-nav">
-      <li><a href="/#/home">Home</a></li>
-      <li><a href="/#/about">About</a></li>
-      <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
-      <li ng-show="isLoggedIn()"><a ng-click="logOut()">Log Out</a></li>
-      <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-      <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
-    </ul>
+  <nav class="navbar navbar-default" ng-controller="NavCtrl">
+    <div class="container">
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+          </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/#/home">Home</a></li>
+          <li><a href="/#/about">About</a></li>
+          <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+          <li ng-show="isLoggedIn()"><a ng-click="logOut()">Log Out</a></li>
+          <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+          <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+        </ul>
+       </div>
+      </div>
   </nav>
   <div class="row">
     <div class="col-sm-2 col-xs-7 col-xs-offset-2 col-md-6 col-md-offset-3">
