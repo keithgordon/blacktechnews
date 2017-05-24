@@ -1,4 +1,4 @@
-# Black Tech Wews
+# Black Tech News
 News site focused on African Americans in tech built using MongoDB, ExpressJS, AngluarJS, and NodeJS.
 
 ## Demo
