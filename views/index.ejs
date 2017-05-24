@@ -31,8 +31,8 @@
           <li><a href="/#/home">Home</a></li>
           <li><a href="/#/about">About</a></li>
           <li ng-show="isLoggedIn()"><a ng-click="logOut()">Log Out</a></li>
-          <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
           <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+          <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
         </ul>
        </div>
       </div>
@@ -184,6 +184,7 @@
   </script>
 
   <script type="text/ng-template" id="/login.html">
+    <div class="col-sm-8 col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
     <div class="page-header">
       <h1>Black Tech News</h1>
     </div>
@@ -214,39 +215,42 @@
       </div>
       <button type="submit" class="btn btn-primary">Log In</button>
     </form>
+  </div>
   </script>
 
   <script type="text/ng-template" id="/register.html">
-    <div class="page-header">
-      <h1>Black Tech News</h1>
-    </div>
-
-    <div ng-show="error" class="alert alert-danger row">
-      <span>{{ error.message }}</span>
-    </div>
-
-    <form class="form-horizontal" ng-submit="register()"
-      style="margin-top:30px;">
-      <h3>Register</h3>
-
-      <div class="form-group">
-        <div class="col-xs-6">
-            <input type="text"
-            class="form-control"
-            placeholder="Username"
-            ng-model="user.username"></input>
-        </div>
+    <div class="col-sm-8 col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+      <div class="page-header">
+        <h1>Black Tech News</h1>
       </div>
-      <div class="form-group">
-        <div class="col-xs-6">
-            <input type="password"
-            class="form-control"
-            placeholder="Password"
-            ng-model="user.password"></input>
-        </div>
+
+      <div ng-show="error" class="alert alert-danger row">
+        <span>{{ error.message }}</span>
       </div>
+
+      <form class="form-horizontal" ng-submit="register()"
+        style="margin-top:30px;">
+        <h3>Register</h3>
+
+        <div class="form-group">
+          <div class="col-xs-6">
+              <input type="text"
+              class="form-control"
+              placeholder="Username"
+              ng-model="user.username"></input>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-6">
+              <input type="password"
+              class="form-control"
+              placeholder="Password"
+              ng-model="user.password"></input>
+          </div>
+        </div>
       <button type="submit" class="btn btn-primary">Register</button>
     </form>
+   </div>
   </script>
 
 
