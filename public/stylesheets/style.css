@@ -1,8 +1,20 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.top-row {
+  margin-top: 30px;
+  margin-bottom: 25px;
 }
 
-a {
-  color: #00B7FF;
+.main-text {
+  display: inline;
+}
+
+/* Font-Awesome Custom Code */
+
+.fa-arrow-up{
+  color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.fa-arrow-up:hover{
+  color: #449d44;
+  border-color: #398439;
 }

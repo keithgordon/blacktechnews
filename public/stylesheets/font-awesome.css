@@ -2335,15 +2335,3 @@
   overflow: visible;
   clip: auto;
 }
-
-/*Custom Code */
-
-.fa-arrow-up{
-  color: #5cb85c;
-  border-color: #4cae4c;
-}
-
-.fa-arrow-up:hover{
-  color: #449d44;
-  border-color: #398439;
-}
