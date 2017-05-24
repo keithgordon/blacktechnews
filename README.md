@@ -1,5 +1,5 @@
 # blacktechnews
-News site focused on African Americans in tech built using MongoDB, ExpressJS, AngluarJS, and NodeJS. http://www.blacktech.news\
+News site focused on African Americans in tech built using MongoDB, ExpressJS, AngluarJS, and NodeJS. http://www.blacktech.news
 
 ## Demo
 You can test a fully working live demo at https://blacktech.news
@@ -17,8 +17,8 @@ You can test a fully working live demo at https://blacktech.news
 <p>Navigate to http://localhost:3000/</p>
 
 ## Dependencies
-  
- * Express 
+
+ * Express
  * Morgan
  * MongoDB
  * Passport
