@@ -137,7 +137,7 @@
     <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
       <div class="fa fa-thumbs-up"
         ng-click="incrementUpvotes(comment)"></div>
-      {{comment.upvotes}} - by <a>{{comment.author}}</a>
+      {{comment.upvotes}}</a>
       <span style="font-size:20px; margin-left:10px;">
         {{comment.body}}
       </span>
